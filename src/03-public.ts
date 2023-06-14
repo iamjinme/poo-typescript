@@ -34,3 +34,4 @@ export class MyDate {
 const birthday = new MyDate(1975, 4, 2);
 birthday.add(5, "years");
 console.log(birthday.toString());
+birthday.day = 9; // Changing property directly

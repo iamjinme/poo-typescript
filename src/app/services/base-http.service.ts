@@ -1,15 +1,22 @@
 import axios from "axios";
 import { Product } from "../models/product.model";
 import { Category } from "../models/category.model";
+import { UpdateProductDto } from "../dtos/product.dto";
 
 export class BaseHttpService<T> {
 
   constructor(
-    private url: string
+    protected url: string
   ){}
 
   async getAll(): Promise<T[]> {
     const { data } = await axios.get<T[]>(this.url);
+    return data;
+  }
+
+  async update<TypeID, TypeDTO>(id: TypeID, changes: TypeDTO) {
+    const { data } = await axios.put(`${this.url}/${id}`, changes);
+
     return data;
   }
 }
@@ -31,4 +38,7 @@ export class BaseHttpService<T> {
   const categories = await categoryService.getAll();
 
   console.log('Categories', categories.length)
+
+  const updated = productService.update<Product['id'], UpdateProductDto>(1, {});
+
 })();
